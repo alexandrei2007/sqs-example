@@ -2,6 +2,23 @@
 
 SQS example with dotnet core.
 
-Configuration in `appsettings.json`.
+## Settings
 
-To test a FIFO queue just call the queue like `NAME.fifo`
+Each project has a `appsettings.json` file.
+
+Just inform your AWS credentials.
+
+To test a FIFO queue, the name must end in `.fifo` e.g. 'test-01.fifo'
+
+```
+{
+  "sqs": {
+    "accessKey": "",
+    "secretKey": "",
+    "region": "us-east-1",
+    "queueName": "test-01"
+  }
+}
+```
+
+In the `ProducerApp` project you can configure to send 10 messages in batch. In the settings you need to set `batch` to `true`.
