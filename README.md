@@ -22,3 +22,9 @@ To test a FIFO queue, the name must end in `.fifo` e.g. 'test-01.fifo'
 ```
 
 In the `ProducerApp` project you can configure to send 10 messages in batch. In the settings you need to set `batch` to `true`.
+
+## Fanout (Publish / Subscribe)
+
+Then `FanoutApp` project will create a SNS topic and deliver messages to it.
+
+In the `ConsumerApp` you can add the topicArn to create a subscription to the consumer queue.

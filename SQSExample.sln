@@ -7,7 +7,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProducerApp", "ProducerApp\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsumerApp", "ConsumerApp\ConsumerApp.csproj", "{6214F80D-F4B7-4013-BD33-13F62985323F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Services", "Services\Services.csproj", "{B44E376A-6B68-4374-A2D3-D01F29C77AF9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Services", "Services\Services.csproj", "{B44E376A-6B68-4374-A2D3-D01F29C77AF9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FanoutApp", "FanoutApp\FanoutApp.csproj", "{EA31FEB2-A575-4BBF-8014-33C3AC32C275}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{B44E376A-6B68-4374-A2D3-D01F29C77AF9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B44E376A-6B68-4374-A2D3-D01F29C77AF9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B44E376A-6B68-4374-A2D3-D01F29C77AF9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EA31FEB2-A575-4BBF-8014-33C3AC32C275}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EA31FEB2-A575-4BBF-8014-33C3AC32C275}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EA31FEB2-A575-4BBF-8014-33C3AC32C275}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EA31FEB2-A575-4BBF-8014-33C3AC32C275}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -10,11 +10,12 @@ namespace Services
 {
     public class QueueService
     {
-        string accessKey;
-        string secretKey;
-        string queueName;
-        RegionEndpoint region;
-        bool isFIFO;
+        private readonly string accessKey;
+        private readonly string secretKey;
+        private readonly string queueName;
+        private readonly RegionEndpoint region;
+        private readonly bool isFIFO;
+        private readonly NotificationService notificationService;
 
         public QueueService(string accessKey, string secretKey, string queueName, string region)
         {
@@ -23,9 +24,15 @@ namespace Services
             this.queueName = queueName;
             this.isFIFO = queueName.EndsWith("fifo");
             this.region = RegionEndpoint.GetBySystemName(region);
+            this.notificationService = new NotificationService(accessKey, secretKey, region);
         }
 
-        public async Task EnsureQueueCreationAsync()
+        /// <summary>
+        /// Ensure sqs queue creation
+        /// </summary>
+        /// <param name="snsTopicArn">Subscribe to a sns topic</param>
+        /// <returns></returns>
+        public async Task EnsureQueueCreationAsync(string snsTopicArn = null)
         {
             // an integer representing seconds, from 60 (1 minute) to 1,209,600 (14 days). Default: 345,600 (4 days). 
             var messageRetentionPeriod = "1209600";
@@ -57,9 +64,21 @@ namespace Services
                 }
 
                 r = await client.CreateQueueAsync(req);
+
+                // subscribe to sns topic
+                if (!string.IsNullOrEmpty(snsTopicArn))
+                {
+                    await notificationService.SubscribeSQS(snsTopicArn, client, r.QueueUrl);
+                }
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="messages"></param>
+        /// <param name="token"></param>
+        /// <returns></returns>
         public async Task SendBatchAsync(string[] messages, CancellationToken token)
         {
             Console.WriteLine(string.Format("Sending {0} messages: ", messages.Length));
@@ -112,7 +131,13 @@ namespace Services
                     req.MessageGroupId = "group";
                     req.MessageDeduplicationId = message;
                 }
+                req.MessageAttributes.Add("CorrelationID", new MessageAttributeValue()
+                {
+                    DataType = "string",
+                    StringValue = Guid.NewGuid().ToString()
+                });
                 //req.DelaySeconds = 10;
+
                 var r = await client.SendMessageAsync(req);
 
                 Console.WriteLine("[" + DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.fff") + "] [P] " + message + " | " + r.MessageId);
